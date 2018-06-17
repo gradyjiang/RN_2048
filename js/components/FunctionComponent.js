@@ -48,7 +48,7 @@ export default class FunctionComponent extends PureComponent {
                 <Text style={styles.infoText}>Join the numbers and get to the
                     <Text style={styles.boldText}> 2048 tile</Text>
                 </Text>
-                <TouchableOpacity style={styles.newGameContainer} onPress={() => {ToastAndroid.show('Hello NewGame', ToastAndroid.SHORT)}}>
+                <TouchableOpacity style={styles.newGameContainer} onPress={this.props.restart}>
                     <Text style={styles.newGameText}>New Game</Text>
                 </TouchableOpacity>
             </View>

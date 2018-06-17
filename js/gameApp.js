@@ -24,9 +24,10 @@ export default class GameApp extends PureComponent {
 
     constructor(props) {
         super(props);
+        this.restart = this.restart.bind(this);
         this.state = {
             children: [{ x: 0, y: 0}, { x: 0, y: 3}]
-        }
+        };
         this.startCard = 2;
     }
 
@@ -34,7 +35,7 @@ export default class GameApp extends PureComponent {
         return (
             <View style={styles.container}>
                 <Header/>
-                <FunctionComponent/>
+                <FunctionComponent restart={this.restart}/>
                 <GameContainer children={this.state.children}/>
             </View>
         )
@@ -70,5 +71,9 @@ export default class GameApp extends PureComponent {
             x: x,
             y: y
         }
+    }
+
+    restart() {
+        this.setGameState();
     }
 }
