@@ -39,7 +39,7 @@ export default class PlayCard extends PureComponent {
         };
         return (
             <View style={[styles.card, cardPositionStyle]}>
-                <Text style={styles.cardText}>8</Text>
+                <Text style={styles.cardText}>{this.props.value}</Text>
             </View>
         );
     }

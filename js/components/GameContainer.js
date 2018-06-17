@@ -23,7 +23,7 @@ export default class GameContainer extends PureComponent {
         return (
           <View style={styles.container}>
               <GridContainer />
-              <CardContainer />
+              <CardContainer children={this.props.children}/>
           </View>
         );
     }

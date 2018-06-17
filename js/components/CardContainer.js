@@ -22,13 +22,12 @@ const styles = StyleSheet.create({
 export default class CardContainer extends PureComponent {
 
     render() {
-        //const children = this.props.children;
-        const children = [{ x: 0, y: 0}, { x: 2, y: 3}];
+        const children = this.props.children;
         return (
             <View style={styles.container}>
                 {
                     children.map((item, key) => {
-                        return <PlayCard key={key} x={item.x} y={item.y} />
+                        return <PlayCard key={key} x={item.x} y={item.y} value={item.value} />
                     })
                 }
             </View>
