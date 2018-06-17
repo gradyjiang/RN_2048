@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import {
     View,
-    Text,
     StyleSheet,
     Dimensions
 } from 'react-native';
 import GridContainer from './GridContainer';
+import CardContainer from './CardContainer';
 
 const {width} = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         height: width-20,
         marginTop: 30
-
     }
 });
 
@@ -24,6 +23,7 @@ export default class GameContainer extends PureComponent {
         return (
           <View style={styles.container}>
               <GridContainer />
+              <CardContainer />
           </View>
         );
     }
