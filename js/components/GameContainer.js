@@ -7,7 +7,9 @@ import {
 } from 'react-native';
 import GridContainer from './GridContainer';
 import CardContainer from './CardContainer';
-import HadShowPositions from '../utils/HadShowPositions';
+import CardMatrix from '../utils/CardMatrix';
+import * as Constants from '../constants/Constants';
+import Card from "../utils/Card";
 
 const {width} = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -34,7 +36,7 @@ export default class GameContainer extends PureComponent {
         this.state = {
             children: []
         };
-        this.hadShowPositions = new HadShowPositions();
+        this.cardMatrix = new CardMatrix(Constants.GRID_SIZE);
     }
 
 
@@ -89,26 +91,15 @@ export default class GameContainer extends PureComponent {
     }
 
     getRandomCard() {
-        let x, y;
-        do {
-            x = Math.floor(Math.random()*4);
-            y = Math.floor(Math.random()*4);
-            if (!this.hadShowPositions.isExist({x: x, y: y})) {
-                this.hadShowPositions.push({x: x, y: y});
-                break;
-            }
-        } while (true);
-
         let value = Math.random() < 0.9 ? 2 : 4;
-        return {
-            value: value,
-            x: x,
-            y: y
-        }
+        let position = this.cardMatrix.getRandomFreeCard();
+        let card = new Card(position.x, position.y, value);
+        this.cardMatrix.pushCard(card);
+        return card;
     }
 
     restart() {
-        this.hadShowPositions.clear();
+        this.cardMatrix.clear();
         this.setGameState()
     }
 }
