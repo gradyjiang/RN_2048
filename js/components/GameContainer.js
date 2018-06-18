@@ -8,7 +8,13 @@ import {
 import GridContainer from './GridContainer';
 import CardContainer from './CardContainer';
 import CardMatrix from '../utils/CardMatrix';
-import * as Constants from '../constants/Constants';
+import {
+    GRID_SIZE,
+    MOVE_RIGHT,
+    MOVE_DOWN,
+    MOVE_LEFT,
+    MOVE_UP
+} from '../constants/Constants';
 import Card from "../utils/Card";
 
 const {width} = Dimensions.get('window');
@@ -36,7 +42,7 @@ export default class GameContainer extends PureComponent {
         this.state = {
             children: []
         };
-        this.cardMatrix = new CardMatrix(Constants.GRID_SIZE);
+        this.cardMatrix = new CardMatrix(GRID_SIZE);
     }
 
 
@@ -58,6 +64,16 @@ export default class GameContainer extends PureComponent {
 
     handlePanResponderRelease(e, gestureState) {
         console.log(`GameApp: handlePanResponderEnd dx=${gestureState.dx}, dy= ${gestureState.dy}`);
+        let dx = gestureState.dx;
+        let dy = gestureState.dy;
+        let absDx = dx > 0 ? dx : -dx;
+        let absDy = dy > 0 ? dy : -dy;
+        let canMove = absDx > 20 || absDy > 20;
+        if (canMove) {
+            const direction = absDx > absDy ? (dx > 0 ? MOVE_RIGHT : MOVE_LEFT)
+                : (dy > 0 ? MOVE_DOWN : MOVE_UP);
+            this.move(direction);
+        }
     }
 
     render() {
@@ -92,7 +108,7 @@ export default class GameContainer extends PureComponent {
 
     getRandomCard() {
         let value = Math.random() < 0.9 ? 2 : 4;
-        let position = this.cardMatrix.getRandomFreeCard();
+        let position = this.cardMatrix.getRandomFreePosition();
         let card = new Card(position.x, position.y, value);
         this.cardMatrix.pushCard(card);
         return card;
@@ -101,5 +117,12 @@ export default class GameContainer extends PureComponent {
     restart() {
         this.cardMatrix.clear();
         this.setGameState()
+    }
+
+    move(direction) {
+        this.cardMatrix.handleCardsMove(direction);
+        this.setState({
+            children: this.cardMatrix.getAvailableCards()
+        })
     }
 }
